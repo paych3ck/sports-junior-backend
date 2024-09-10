@@ -68,7 +68,7 @@ func DeleteNote(w http.ResponseWriter, r *http.Request) {
 	if data.DeleteNoteByID(id) {
 		w.Header().Set("Content-Type", "application/json")
 		response := models.DeleteNoteResponse{
-			Status: "succes",
+			Status: "success",
 		}
 		json.NewEncoder(w).Encode(response)
 	} else {

@@ -99,7 +99,31 @@ func TestDeleteNoteHandler(t *testing.T) {
 		t.Errorf("Error decoding response: %v", err)
 	}
 
-	if response.Status != "succes" {
+	if response.Status != "success" {
 		t.Errorf("Expected success, got %v", response.Status)
+	}
+}
+
+func TestDeleteNoteHandlerInvalidID(t *testing.T) {
+	data.ResetNotes()
+	mockNotesData()
+
+	request, err := http.NewRequest(http.MethodDelete, "/notes/111", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(handlers.DeleteNote)
+
+	handler.ServeHTTP(rr, request)
+
+	if status := rr.Code; status != http.StatusNotFound {
+		t.Errorf("Handler returned wrong status code: got %v expected %v", status, http.StatusNotFound)
+	}
+
+	expected := "Note with such ID not found\n"
+	if rr.Body.String() != expected {
+		t.Errorf("Expected %v, got %v", expected, rr.Body.String())
 	}
 }
