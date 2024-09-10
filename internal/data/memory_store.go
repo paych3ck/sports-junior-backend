@@ -11,6 +11,13 @@ var (
 	mu     sync.Mutex
 )
 
+func ResetNotes() {
+	mu.Lock()
+	defer mu.Unlock()
+	notes = []models.Note{}
+	nextID = 0
+}
+
 func GetNotes() []models.Note {
 	mu.Lock()
 	defer mu.Unlock()

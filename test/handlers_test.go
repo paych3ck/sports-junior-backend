@@ -18,6 +18,7 @@ func mockNotesData() {
 }
 
 func TestGetNotesHandler(t *testing.T) {
+	data.ResetNotes()
 	mockNotesData()
 
 	request, err := http.NewRequest(http.MethodGet, "/notes", nil)
@@ -46,7 +47,9 @@ func TestGetNotesHandler(t *testing.T) {
 }
 
 func TestCreateNoteHandler(t *testing.T) {
+	data.ResetNotes()
 	newNoteContent := `{"content":"Another created note for testing"}`
+
 	request, err := http.NewRequest(http.MethodPost, "/notes", strings.NewReader(newNoteContent))
 	if err != nil {
 		t.Fatal(err)
@@ -67,12 +70,15 @@ func TestCreateNoteHandler(t *testing.T) {
 		t.Errorf("Error decoding response: %v", err)
 	}
 
-	if response.ID != 3 {
-		t.Errorf("Expected note with ID 3, got ID %d", response.ID)
+	if response.ID != 0 {
+		t.Errorf("Expected note with ID 0, got ID %d", response.ID)
 	}
 }
 
 func TestDeleteNoteHandler(t *testing.T) {
+	data.ResetNotes()
+	mockNotesData()
+
 	request, err := http.NewRequest(http.MethodDelete, "/notes/1", nil)
 	if err != nil {
 		t.Fatal(err)
