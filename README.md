@@ -68,9 +68,9 @@
 ```bash
 git clone https://github.com/paych3ck/sports-junior-backend
 ```
-2. Переход в нужную директорию
+2. Переход в нужную папку, находясь в корневой директории
 ```bash
-cd sports-junior-backend/cmd/sports-junior-backend
+cd cmd/sports-junior-backend
 ```
 3. Запуск приложения
 ```bash
